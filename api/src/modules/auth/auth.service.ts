@@ -36,7 +36,7 @@ export class AuthService {
 
     const accessToken = await this.generateAccessToken(user.id);
 
-    return { accessToke: accessToken };
+    return { accessToken };
   }
 
   async signup(signupDto: SignupDto) {
@@ -66,7 +66,7 @@ export class AuthService {
 
     const accessToken = await this.generateAccessToken(user.id);
 
-    return { accessToke: accessToken };
+    return { accessToken };
   }
 
   private async generateAccessToken(userId: string) {
