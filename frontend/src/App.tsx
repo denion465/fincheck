@@ -1,7 +1,7 @@
-export function App() {
+import { Router } from "./Router";
 
+export function App() {
   return (
-    <h1 className="bg-red-500 text-white">hello world</h1>
+    <Router />
   );
 }
-
