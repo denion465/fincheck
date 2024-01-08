@@ -6,7 +6,7 @@ interface AccountsSliderNavigationProps {
   isEnd: boolean;
 }
 
-export function AccountsSliderNavigation({
+export function SliderNavigation({
   isBeginning,
   isEnd,
 }: Readonly<AccountsSliderNavigationProps>) {
