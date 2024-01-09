@@ -1,7 +1,8 @@
 import * as RdxDropdownMenu from '@radix-ui/react-dropdown-menu';
 import React from 'react';
 
-import { cn } from '../app/utils/cn';
+import { cn } from '../../app/utils/cn';
+
 
 function DropdownMenuRoot({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
