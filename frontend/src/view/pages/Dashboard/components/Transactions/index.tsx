@@ -78,7 +78,7 @@ export function Transactions() {
               </div>
             )}
 
-            {(!hasTransactions && isLoading) && (
+            {(!hasTransactions && !isLoading) && (
               <div className="flex flex-col h-full items-center justify-center">
                 <img src={emptyState} alt="Empty state" />
                 <p className="text-gray-700">
