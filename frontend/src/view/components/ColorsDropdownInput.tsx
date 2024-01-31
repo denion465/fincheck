@@ -40,7 +40,7 @@ export function ColorsDropdownInput({ error, className, onChange, value }: Reado
       return null;
     }
 
-    return colors.find(c => c.color === value) ?? null;
+    return colors.find((c) => c.color === value) ?? null;
   });
 
   function handleSelect(color: Color) {
@@ -49,7 +49,7 @@ export function ColorsDropdownInput({ error, className, onChange, value }: Reado
   }
 
   return (
-    <>
+    <div>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <button
@@ -93,6 +93,6 @@ export function ColorsDropdownInput({ error, className, onChange, value }: Reado
           <span className="text-xs">{error}</span>
         </div>
       )}
-    </>
+    </div>
   );
 }
