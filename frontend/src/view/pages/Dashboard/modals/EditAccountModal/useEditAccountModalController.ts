@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -41,12 +42,23 @@ export function useEditAccountModalController() {
     },
   });
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const queryClient = useQueryClient();
-  const { isLoading, mutateAsync } = useMutation(bankAccountsService.update);
+
+  const {
+    isLoading,
+    mutateAsync: updateAccount,
+  } = useMutation(bankAccountsService.update);
+
+  const {
+    isLoading: isLoadingDelete,
+    mutateAsync: removeAccount,
+  } = useMutation(bankAccountsService.remove);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      await mutateAsync({
+      await updateAccount({
         ...data,
         id: accountBeingEdited!.id,
         initialBalance: Number(data.initialBalance),
@@ -60,6 +72,26 @@ export function useEditAccountModalController() {
     }
   });
 
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
+  async function handleDeleteAccount() {
+    try {
+      await removeAccount(accountBeingEdited!.id);
+
+      queryClient.invalidateQueries(['bankAccounts']);
+      toast.success('A conta foi deletada com sucesso!');
+      closeEditAccountModal();
+    } catch {
+      toast.error('Erro ao deletar a conta!');
+    }
+  }
+
   return {
     isEditAccountModalOpen,
     closeEditAccountModal,
@@ -69,5 +101,10 @@ export function useEditAccountModalController() {
     control,
     isLoading,
     accountBeingEdited,
+    isDeleteModalOpen,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    handleDeleteAccount,
+    isLoadingDelete,
   };
 }
