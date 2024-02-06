@@ -59,6 +59,7 @@ export function useNewTransactionModalController() {
       });
 
       queryClient.invalidateQueries(['transactions']);
+      queryClient.invalidateQueries(['bankAccounts']);
       toast.success(
         newTransactionType === 'EXPENSE'
           ? 'Despesa cadastrada com sucesso!'
