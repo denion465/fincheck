@@ -35,6 +35,9 @@ export function useNewTransactionModalController() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      value: '0',
+    },
   });
 
   const queryClient = useQueryClient();
