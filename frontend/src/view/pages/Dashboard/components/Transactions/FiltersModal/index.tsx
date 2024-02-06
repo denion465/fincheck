@@ -3,36 +3,22 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { cn } from '../../../../../../app/utils/cn';
 import { Button } from '../../../../../components/Button';
 import { Modal } from '../../../../../components/Modal';
-import { useFiltersModal } from './useFiltersModal';
-
+import { useFiltersModalController } from './useFiltersModalController';
 
 interface FiltersModalProps {
   open: boolean;
   onClose(): void;
+  onApplyFilters(filters: { bankAccountId: string | undefined; year: number; }): void;
 }
 
-const mockedAccounts = [
-  {
-    id: '1',
-    name: 'Nubank',
-  },
-  {
-    id: '2',
-    name: 'Xp investimentos',
-  },
-  {
-    id: '3',
-    name: 'Dinheiro',
-  },
-];
-
-export function FiltersModal({ open, onClose }: Readonly<FiltersModalProps>) {
+export function FiltersModal({ open, onClose, onApplyFilters }: Readonly<FiltersModalProps>) {
   const {
     handleSelectBankAccount,
     selectedBankAccountId,
     selectedYear,
     handleChangeYear,
-  } = useFiltersModal();
+    accounts,
+  } = useFiltersModalController();
 
   return (
     <Modal open={open} onClose={onClose} title="Filtros">
@@ -42,7 +28,7 @@ export function FiltersModal({ open, onClose }: Readonly<FiltersModalProps>) {
         </span>
 
         <div className="space-y-2 mt-2">
-          {mockedAccounts.map((account) => (
+          {accounts.map((account) => (
             <button
               key={account.id}
               onClick={() => handleSelectBankAccount(account.id)}
@@ -83,7 +69,13 @@ export function FiltersModal({ open, onClose }: Readonly<FiltersModalProps>) {
         </div>
       </div>
 
-      <Button className="w-full mt-10">
+      <Button
+        onClick={() => onApplyFilters({
+          bankAccountId: selectedBankAccountId,
+          year: selectedYear,
+        })}
+        className="w-full mt-10"
+      >
         Aplicar filtros
       </Button>
     </Modal>
