@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  fincheck-db:
+    image: "postgres:latest"
+    container_name: fincheck-db
+    volumes:
+      - fincheck-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=fincheck
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  api:
+    build: ./api
+    container_name: fincheck-api
+    restart: no
+    ports:
+      - 3000:3000
+    depends_on:
+      - fincheck-db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@fincheck-db:5432/fincheck?schema=public
+      - JWT_SECRET=z%i@hZHZDeeSlE^fZ3CptYqxJJ!lPWk6
+      - DB_HOST=fincheck-db
+      - DB_PORT=5432
+
+  frontend:
+    build: ./frontend
+    restart: no
+    ports:
+      - 4173:4173
+    depends_on:
+      - api
+    environment:
+      - VITE_API_URL=api:3000
+
+volumes:
+  fincheck-db: {}
